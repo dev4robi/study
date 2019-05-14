@@ -1,0 +1,132 @@
+----------------------------------------------------------------
+
+[기본 설정]
+> 루트계정 암호 설정
+sudo passwd root
+
+> 사용자 계정 추가
+sudo adduser "{name}" -m -s /bin/bash   # -m옵션으로 홈디렉토리 생성, -s옵션으로 쉘환경 설정
+sudo passwd "{name}"
+
+> SSH Public Key 복사
+sudo cp -R /home/centos/.ssh /home/{name}/.ssh
+sudo chmod 700 /home/{name}/.ssh
+sudo chown -cR "{name}"
+sudo chgrp -cR "{name}"
+
+> 시스템시간 변경
+sudo rm /etc/localtime
+sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime    # 심볼릭 링크 생성
+
+----------------------------------------------------------------
+
+[서버 정보/운영]
+> 시스템 정보 확인
+dmidecode -t
+
+> 리눅스 배포본 확인
+cat /etc/*-release
+
+> CPU 정보 확인
+cat /proc/cpuinfo | more    # CPU 스팩
+arch                        # CPU 비트
+
+> RAM 정보 확인
+cat /proc meminfo           # Memory 스팩
+free                        # 현재 사용량
+
+> DISK 용량 확인
+df -h                       # 디스크 파티션, 용량정보
+fdisk -l                    # 디스크 확인
+
+> NETWORK 확인
+ifconfig -a
+
+> 접속로그 확인
+last
+
+----------------------------------------------------------------
+
+[통합 개발도구 설치]
+yum group install "Development Tools"
+
+----------------------------------------------------------------
+
+[OpenJDK 설치]
+yum list java*jdk-devel
+yum install java-1.8.0-openjdk-devel.x86_64
+
+----------------------------------------------------------------
+
+[gcc 설치]
+> 기존설치 확인
+rpm -qa | grep ^gcc
+yum list installed gcc
+
+> 설치
+yum install gcc gcc-c++
+
+----------------------------------------------------------------
+
+[Apache(httpd) 설치]
+> 기존설치 확인
+rpm -qa httpd
+
+> 설치
+yum install httpd
+
+> 서비스 시작
+servide httpd start
+
+> 서비스 상태 조사
+systemctl status httpd.service
+
+> 버전확인
+httpd -v
+
+> 재부팅시 자동시작
+chkconfig --list
+chkconfig httpd on
+
+----------------------------------------------------------------
+
+[MariaDB 설치]
+> 최신버전으로 설치
+# 최신 마리아DB 파일 레포지토리를 "/etc/yum.repos.d/mariadb.repo"로 생성
+curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+yum install MariaDB-server
+
+> 환경설정
+vi /etc/my.cnf
+
+# 내용 복사
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+[mysqldump]
+default-character-set=utf8mb4
+
+[mariadb]
+[mysqld]
+port=3306
+character-set-client-handshake=FALSE
+init-connect='SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+
+> 서비스 시작
+systemctl start mariadb
+
+> 보안설정
+sudo mysql_secure_installation
+
+----------------------------------------------------------------
+
+[git 설치]
+yum install git
+
+----------------------------------------------------------------
+

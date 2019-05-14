@@ -1,0 +1,31 @@
+1	#include <iostream>
+2	using namespace std;
+3	
+4	int main(void)
+5	{
+6	    // 입력 받을 데이터와 io 상태를 체크할 변수 선언
+7	    char data[256];
+8	    long istate;
+9	    int line_number = 0;
+10	
+11	    // EOF 일때까지 cin.get() 수행
+12	    while (!cin.eof())
+13	    {
+14	        cin.getline(data, sizeof(data));
+15	
+16	        // cin.fail() 체크, 에러가 없으면 라인넘버 붙여 출력
+17	        if (cin.fail())
+18	        {
+19	            istate = cin.rdstate();
+20	            cerr << "istate 에러 검출, 값: " << istate << endl;
+21	        }
+22	        else
+23	        {
+24	            ++line_number;
+25	            cout << line_number << '\t';
+26	            cout << data << endl;
+27	        }
+28	    }
+29	
+30	    return 0;
+31	}
