@@ -1,105 +1,116 @@
 ----------------------------------------------------------------
 
-[±âº» ¼³Á¤]
-> ·çÆ®°èÁ¤ ¾ÏÈ£ ¼³Á¤
+[ê¸°ë³¸ ì„¤ì •]
+> ë£¨íŠ¸ê³„ì • ì•”í˜¸ ì„¤ì •
 sudo passwd root
 
-> »ç¿ëÀÚ °èÁ¤ Ãß°¡
-sudo adduser "{name}" -m -s /bin/bash   # -m¿É¼ÇÀ¸·Î È¨µð·ºÅä¸® »ý¼º, -s¿É¼ÇÀ¸·Î ½©È¯°æ ¼³Á¤
+> ì‚¬ìš©ìž ê³„ì • ì¶”ê°€
+sudo adduser "{name}" -m -s /bin/bash   # -mì˜µì…˜ìœ¼ë¡œ í™ˆë””ë ‰í† ë¦¬ ìƒì„±, -sì˜µì…˜ìœ¼ë¡œ ì‰˜í™˜ê²½ ì„¤ì •
 sudo passwd "{name}"
 
-> SSH Public Key º¹»ç
+> SSH Public Key ë³µì‚¬
 sudo cp -R /home/centos/.ssh /home/{name}/.ssh
 sudo chmod 700 /home/{name}/.ssh
 sudo chown -cR "{name}"
 sudo chgrp -cR "{name}"
 
-> ½Ã½ºÅÛ½Ã°£ º¯°æ
+> ì‹œìŠ¤í…œì‹œê°„ ë³€ê²½
 sudo rm /etc/localtime
-sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime    # ½Éº¼¸¯ ¸µÅ© »ý¼º
+sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime    # ì‹¬ë³¼ë¦­ ë§í¬ ìƒì„±
 
 ----------------------------------------------------------------
 
-[¼­¹ö Á¤º¸/¿î¿µ]
-> ½Ã½ºÅÛ Á¤º¸ È®ÀÎ
+[ì„œë²„ ì •ë³´/ìš´ì˜]
+> ì‹œìŠ¤í…œ ì •ë³´ í™•ì¸
 dmidecode -t
 
-> ¸®´ª½º ¹èÆ÷º» È®ÀÎ
+> ë¦¬ëˆ…ìŠ¤ ë°°í¬ë³¸ í™•ì¸
 cat /etc/*-release
 
-> CPU Á¤º¸ È®ÀÎ
-cat /proc/cpuinfo | more    # CPU ½ºÆÑ
-arch                        # CPU ºñÆ®
+> CPU ì •ë³´ í™•ì¸
+cat /proc/cpuinfo | more    # CPU ìŠ¤íŒ©
+arch                        # CPU ë¹„íŠ¸
 
-> RAM Á¤º¸ È®ÀÎ
-cat /proc meminfo           # Memory ½ºÆÑ
-free                        # ÇöÀç »ç¿ë·®
+> RAM ì •ë³´ í™•ì¸
+cat /proc/meminfo           # Memory ìŠ¤íŒ©
+free                        # í˜„ìž¬ ì‚¬ìš©ëŸ‰
 
-> DISK ¿ë·® È®ÀÎ
-df -h                       # µð½ºÅ© ÆÄÆ¼¼Ç, ¿ë·®Á¤º¸
-fdisk -l                    # µð½ºÅ© È®ÀÎ
+> DISK ìš©ëŸ‰ í™•ì¸
+df -h                       # ë””ìŠ¤í¬ íŒŒí‹°ì…˜, ìš©ëŸ‰ì •ë³´
+fdisk -l                    # ë””ìŠ¤í¬ í™•ì¸
 
-> NETWORK È®ÀÎ
+> NETWORK í™•ì¸
 ifconfig -a
 
-> Á¢¼Ó·Î±× È®ÀÎ
+> ì ‘ì†ë¡œê·¸ í™•ì¸
 last
 
 ----------------------------------------------------------------
 
-[ÅëÇÕ °³¹ßµµ±¸ ¼³Ä¡]
+[í†µí•© ê°œë°œë„êµ¬ ì„¤ì¹˜]
 yum group install "Development Tools"
 
 ----------------------------------------------------------------
 
-[OpenJDK ¼³Ä¡]
+[SE(Security Enhanced) Linux ì„¤ì •]
+> í—ˆìš©í¬íŠ¸ í™•ì¸
+semanage port -l | grep mysqld_port_t
+semanage port -l | grep http_port_t
+...
+
+> í—ˆìš©í¬íŠ¸ ì¶”ê°€ (mysqld)
+semanage port -a -t mysqld_port_t -p tcp 201906
+
+----------------------------------------------------------------
+
+[OpenJDK ì„¤ì¹˜]
 yum list java*jdk-devel
 yum install java-1.8.0-openjdk-devel.x86_64
 
 ----------------------------------------------------------------
 
-[gcc ¼³Ä¡]
-> ±âÁ¸¼³Ä¡ È®ÀÎ
+[gcc ì„¤ì¹˜]
+> ê¸°ì¡´ì„¤ì¹˜ í™•ì¸
 rpm -qa | grep ^gcc
 yum list installed gcc
 
-> ¼³Ä¡
+> ì„¤ì¹˜
 yum install gcc gcc-c++
 
 ----------------------------------------------------------------
 
-[Apache(httpd) ¼³Ä¡]
-> ±âÁ¸¼³Ä¡ È®ÀÎ
+[Apache(httpd) ì„¤ì¹˜]
+> ê¸°ì¡´ì„¤ì¹˜ í™•ì¸
 rpm -qa httpd
 
-> ¼³Ä¡
+> ì„¤ì¹˜
 yum install httpd
 
-> ¼­ºñ½º ½ÃÀÛ
+> ì„œë¹„ìŠ¤ ì‹œìž‘
 servide httpd start
 
-> ¼­ºñ½º »óÅÂ Á¶»ç
+> ì„œë¹„ìŠ¤ ìƒíƒœ ì¡°ì‚¬
 systemctl status httpd.service
 
-> ¹öÀüÈ®ÀÎ
+> ë²„ì „í™•ì¸
 httpd -v
 
-> ÀçºÎÆÃ½Ã ÀÚµ¿½ÃÀÛ
+> ìž¬ë¶€íŒ…ì‹œ ìžë™ì‹œìž‘
 chkconfig --list
 chkconfig httpd on
 
 ----------------------------------------------------------------
 
-[MariaDB ¼³Ä¡]
-> ÃÖ½Å¹öÀüÀ¸·Î ¼³Ä¡
-# ÃÖ½Å ¸¶¸®¾ÆDB ÆÄÀÏ ·¹Æ÷ÁöÅä¸®¸¦ "/etc/yum.repos.d/mariadb.repo"·Î »ý¼º
+[MariaDB ì„¤ì¹˜]
+> ìµœì‹ ë²„ì „ìœ¼ë¡œ ì„¤ì¹˜
+# ìµœì‹  ë§ˆë¦¬ì•„DB íŒŒì¼ ë ˆí¬ì§€í† ë¦¬ë¥¼ "/etc/yum.repos.d/mariadb.repo"ë¡œ ìƒì„±
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 yum install MariaDB-server
 
-> È¯°æ¼³Á¤
+> í™˜ê²½ì„¤ì •
 vi /etc/my.cnf
 
-# ³»¿ë º¹»ç
+# ë‚´ìš© ë³µì‚¬
 [client]
 default-character-set=utf8mb4
 
@@ -111,21 +122,21 @@ default-character-set=utf8mb4
 
 [mariadb]
 [mysqld]
-port=3306
+port=201906
 character-set-client-handshake=FALSE
 init-connect='SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
 character-set-server=utf8mb4
 collation-server=utf8mb4_unicode_ci
 
-> ¼­ºñ½º ½ÃÀÛ
+> ì„œë¹„ìŠ¤ ì‹œìž‘
 systemctl start mariadb
 
-> º¸¾È¼³Á¤
+> ë³´ì•ˆì„¤ì •
 sudo mysql_secure_installation
 
 ----------------------------------------------------------------
 
-[git ¼³Ä¡]
+[git ì„¤ì¹˜]
 yum install git
 
 ----------------------------------------------------------------
